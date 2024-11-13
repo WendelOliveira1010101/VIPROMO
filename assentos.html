@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha de Assentos de Avião</title>
+    <style>
+
+        .plane {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .seat {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            background-color: gray;
+            border: 1px solid #000;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+        .seat.occupied {
+            background-color: red;
+            cursor: not-allowed;
+        }
+        .seat.selected {
+            background-color: green;
+        }
+        .seat:hover:not(.occupied) {
+            background-color: green;
+        }
+        #confirmLink {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: blue;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+    
+        }
+        #confirmLink.disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha de Assentos</h1>
+    <div class="plane">
+        <!-- Exemplo de 5 fileiras com 4 assentos cada -->
+        <div class="row">
+            <div class="seat" data-seat="1A">1A</div>
+            <div class="seat" data-seat="1B">1B</div>
+            <div class="seat occupied" data-seat="1C">1C</div>
+            <div class="seat" data-seat="1D">1D</div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="2A">2A</div>
+            <div class="seat occupied" data-seat="2B">2B</div>
+            <div class="seat" data-seat="2C">2C</div>
+            <div class="seat" data-seat="2D">2D</div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="3A">3A</div>
+            <div class="seat" data-seat="3B">3B</div>
+            <div class="seat" data-seat="3C">3C</div>
+            <div class="seat occupied" data-seat="3D">3D</div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="4A">4A</div>
+            <div class="seat" data-seat="4B">4B</div>
+            <div class="seat" data-seat="4C">4C</div>
+            <div class="seat" data-seat="4D">4D</div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="5A">5A</div>
+            <div class="seat occupied" data-seat="5B">5B</div>
+            <div class="seat" data-seat="5C">5C</div>
+            <div class="seat" data-seat="5D">5D</div>
+        </div>
+         <div class="row">
+            <div class="seat" data-seat="6A">6A</div>
+            <div class="seat occupied" data-seat="6B">6B</div>
+            <div class="seat" data-seat="6C">6C</div>
+            <div class="seat" data-seat="6D">6D</div>
+        </div> <div class="row">
+            <div class="seat" data-seat="7A">7A</div>
+            <div class="seat occupied" data-seat="7B">7B</div>
+            <div class="seat" data-seat="7C">7C</div>
+            <div class="seat" data-seat="7D">7D</div>
+        </div> <div class="row">
+            <div class="seat" data-seat="8A">8A</div>
+            <div class="seat occupied" data-seat="8B">8B</div>
+            <div class="seat" data-seat="8C">8C</div>
+            <div class="seat" data-seat="8D">8D</div>
+        </div> <div class="row">
+            <div class="seat" data-seat="9A">9A</div>
+            <div class="seat occupied" data-seat="9B">9B</div>
+            <div class="seat" data-seat="9C">9C</div>
+            <div class="seat" data-seat="9D">9D</div>
+        </div>
+    </div>
+
+   <a href="detalhes.html" class="price-link">Confirmar Assentos</a>
+
+    <script>
+        const seats = document.querySelectorAll('.seat:not(.occupied)');
+        const confirmLink = document.getElementById('confirmLink');
+
+        seats.forEach(seat => {
+            seat.addEventListener('click', () => {
+                seat.classList.toggle('selected');
+                updateLink();
+            });
+        });
+
+        function updateLink() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            if (selectedSeats.length > 0) {
+                const seatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-seat'));
+                const params = new URLSearchParams();
+                params.append('seats', seatNumbers.join(','));
+                confirmLink.href = 'detalhes_compra.html?' + params.toString();
+                confirmLink.classList.remove('disabled');
+            } else {
+                confirmLink.href = '#';
+                confirmLink.classList.add('disabled');
+            }
+        }
+    </script>
+</body>
+</html>
